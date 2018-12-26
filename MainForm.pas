@@ -64,6 +64,7 @@ end;
 
 procedure TfrmMain.Button3Click(Sender: TObject);
 begin
+//test
   SpreadSheetLink.Print(True);
 end;
 
