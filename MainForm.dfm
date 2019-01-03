@@ -29,6 +29,7 @@ object frmMain: TfrmMain
       Align = alClient
       OptionsView.GridLineColor = clMedGray
       OptionsView.GridLines = False
+      ExplicitLeft = 2
       Data = {
         D701000044585353763242460B00000042465320000000000000000000000101
         010100000000000001004246532000000000424653200200000001000000200B
@@ -111,7 +112,7 @@ object frmMain: TfrmMain
       PrinterPage.ScaleMode = smFit
       PrinterPage._dxMeasurementUnits_ = 0
       PrinterPage._dxLastMU_ = 2
-      ReportDocument.CreationDate = 43460.666336574080000000
+      ReportDocument.CreationDate = 43468.747325243060000000
       ReportTitle.Font.Charset = ANSI_CHARSET
       ReportTitle.Font.Color = clBlack
       ReportTitle.Font.Height = -15

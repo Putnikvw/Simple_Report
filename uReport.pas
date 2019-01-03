@@ -98,20 +98,23 @@ begin
     begin
       C := CreateCell(ARow, I);
       C.Style.Borders[bTop].Style := sscbsMedium;
+      C.Style.Font.Style := [fsBold];
       if I = 4 then
       begin
         C.SetText('Open Sh/Contr');
         C.Style.AlignHorz := ssahCenter;
         MergedCells.Add(Rect(3, ARow, 4, ARow));
-        CreateCell(ARow, 5).AsFloat := AShContr;
+        CreateCell(ARow, 5).AsCurrency := AShContr;
+        Cells[ARow, 5].Style.DataFormat.FormatCode := '$#,##0.00';
       end;
       if I = 8 then
         C.SetText('Design #' + IntToStr(AID) + ' P/L');
       if I = 9 then
       begin
-        CreateCell(Arow, I).AsFloat := RoundTo(GroupTotal, -2);
+        CreateCell(Arow, I).AsCurrency := RoundTo(GroupTotal, -2);
+        Cells[ARow, I].Style.DataFormat.FormatCode := '$#,##0.00';
         if GroupTotal < 0 then
-          Cells[ARow, I].Style.Font.Color := $000F0FFF;
+          Cells[ARow, I].Style.DataFormat.FormatCode := '#,##0.00_);[Red]($#,##0.00)';
         GroupTotal := 0;
       end;
     end;
@@ -126,7 +129,8 @@ procedure TReport.AddDatatoSheet(AData: TFDMemTable);
     with FSheet.ActiveSheetAsTable do
     begin
       CreateCell(ARow, ColumnIndex).SetText('TOTALS');
-      CreateCell(ARow, ColumnIndex + 2).AsFloat := RoundTo(AGrandTotal, -2);
+      CreateCell(ARow, ColumnIndex + 2).AsCurrency := RoundTo(AGrandTotal, -2);
+      Cells[ARow, ColumnIndex + 2].Style.DataFormat.FormatCode := '$#,##0.00';
       Cells[ARow, ColumnIndex + 2].Style.Font.Style := [fsBold];
       Cells[ARow, ColumnIndex].Style.Font.Style := [fsBold];
     end;
@@ -164,9 +168,10 @@ begin
             Cell := CreateCell(J, I);
             if I > 5 then
             begin
-              Cell.AsFloat := RoundTo(FieldByName(ColumnList[I]).AsFloat, -2);
-              if Cell.AsFloat < 0 then
-                Cell.Style.Font.Color := $000F0FFF;
+              Cell.AsCurrency := RoundTo(FieldByName(ColumnList[I]).AsFloat, -2);
+              Cell.Style.DataFormat.FormatCode := '$#,##0.00';
+              if Cell.AsCurrency < 0 then
+                Cell.Style.DataFormat.FormatCode := '#,##0.00_);[Red]($#,##0.00)';
             end
             else
               Cell.AsVariant := FieldByName(ColumnList[I]).Value;
