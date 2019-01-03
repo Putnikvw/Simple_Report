@@ -112,7 +112,7 @@ object frmMain: TfrmMain
       PrinterPage.ScaleMode = smFit
       PrinterPage._dxMeasurementUnits_ = 0
       PrinterPage._dxLastMU_ = 2
-      ReportDocument.CreationDate = 43460.652572928240000000
+      ReportDocument.CreationDate = 43468.747325243060000000
       ReportTitle.Font.Charset = ANSI_CHARSET
       ReportTitle.Font.Color = clBlack
       ReportTitle.Font.Height = -15
