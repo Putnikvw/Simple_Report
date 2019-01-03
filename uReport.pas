@@ -9,7 +9,7 @@ uses
   Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, System.DateUtils, System.Math,
   Winapi.Windows, cxGraphics, Vcl.Styles, Vcl.SysStyles, System.UITypes, Vcl.Graphics,
   dxSpreadSheetCore, dxSpreadSheetCoreHistory, dxSpreadSheetCoreStyles,
-  dxSpreadSheetStyles, dxSpreadSheetGraphics,
+  dxSpreadSheetStyles, dxSpreadSheetGraphics, dxHashUtils,
   dxSpreadSheet, dxPSdxSpreadSheetLnk, dxPSCore, dxPrnPg;
 
 type
@@ -160,7 +160,6 @@ begin
           begin
             GroupUnderline(J, GIndex, ShContr);
             GIndex := FieldByName(ColumnList[0]).AsInteger;
-//            RepeatHeader(J);
             ShContr := 0;
           end;
           for I := 0 to Length(ColumnList) - 1 do
@@ -207,7 +206,7 @@ procedure TReport.CreateReportStructure;
     Cell: TdxSpreadSheetCell;
     Text, SubText, TableHeader, SubTextData: TArray<string>;
     Col: TArray<integer>;
-    I, J: Integer;
+    I: Integer;
   begin
     Col := [AColumn_1, AColumn_2, AColumn_3];
     Text := ['Fashion Detail Report', 'Tax Year', AYear];
@@ -216,29 +215,6 @@ procedure TReport.CreateReportStructure;
     SubTextData := [DesignPayer, FileName, Account];
     with FSheet.ActiveSheetAsTable do
     begin
-      {
-      for I := 0 to Length(Text) - 1 do
-      begin
-        Cell := CreateCell(ARow, Col[I]);
-        Cell.Style.Font.Size := SizeofHeader;
-        Cell.Style.Font.Style := [fsBold];
-        Cell.SetText(Text[I]);
-      end;
-
-      for I := ARow to (ARow + Length(SubText) - 1) do
-      begin
-        if I < ARow + 4 then
-          Cell := CreateCell(I + 1, 0)
-        else
-          Cell := CreateCell(I - 1, 8);
-        Cell.Style.Font.Style := [fsBold];
-        J := I - ARow;
-        Cell.SetText(SubText[J]);
-      end;
-
-      for I := 0 to Length(SubTextData) - 1 do
-        CreateCell(ARow + I + 1, 1).SetText(SubTextData[I]);
-                      }
       for I := 0 to Length(TableHeader) - 1 do
       begin
         Cell := CreateCell(ARow + TableRowStart, I);
@@ -272,16 +248,6 @@ procedure TReport.FillSheet(ASheet: TdxSpreadSheet; APrint: TdxSpreadSheetReport
 
   procedure SetPrintVisible;
   begin
-//    with FSheet.ActiveSheetAsTable.OptionsPrint do
-//    begin
-//      Page.FitToWidth := 1;
-////      Pagination.RowPageBreaks.Add(1);
-////      Pagination.RowPageBreaks.Add(2);
-////      Pagination.RowPageBreaks.Add(3);
-////      Pagination.RowPageBreaks.Add(4);
-////      Pagination.RowPageBreaks.Add(5);
-//      Pagination.ColumnPageBreaks.Add(9);
-//    end;
     with FPrint.PrinterPage do
     begin
       PageHeader.Titles[tpLeft].Add('Design Payer: ' + DesignPayer);
