@@ -21,6 +21,7 @@ type
     FAccount: string;
     FGroupTotal: Double;
     FGrandTotal: Double;
+    FGrandProfit: Double;
     FCount: Integer;
     FPrint: TdxSpreadSheetReportLnk;
     procedure PrepareBook;
@@ -39,6 +40,7 @@ type
     property  Account: string read  FAccount write FAccount;
     property  GroupTotal: Double read   FGroupTotal write FGroupTotal;
     property  GrandTotal: Double read FGrandTotal write FGrandTotal;
+    property  GrandProfit: Double read FGrandProfit write FGrandProfit;
   protected
     constructor Create(ASheet: TdxSpreadSheet; APrint: TdxSpreadSheetReportLnk);
   public
@@ -109,6 +111,7 @@ begin
       end;
       if I = 8 then
         C.SetText('Design #' + IntToStr(AID) + ' P/L');
+        Columns[8].ApplyBestFit;
       if I = 9 then
       begin
         CreateCell(Arow, I).AsCurrency := RoundTo(GroupTotal, -2);
@@ -122,17 +125,25 @@ begin
 end;
 
 procedure TReport.AddDatatoSheet(AData: TFDMemTable);
-  procedure GranTotal(ARow: Integer; AGrandTotal: Double);
+  procedure GranTotal(ARow: Integer);
   const
     ColumnIndex =  6;
   begin
     with FSheet.ActiveSheetAsTable do
     begin
       CreateCell(ARow, ColumnIndex).SetText('TOTALS');
-      CreateCell(ARow, ColumnIndex + 2).AsCurrency := RoundTo(AGrandTotal, -2);
+      CreateCell(ARow, ColumnIndex + 2).AsCurrency := RoundTo(GrandTotal, -2);
       Cells[ARow, ColumnIndex + 2].Style.DataFormat.FormatCode := '$#,##0.00';
       Cells[ARow, ColumnIndex + 2].Style.Font.Style := [fsBold];
       Cells[ARow, ColumnIndex].Style.Font.Style := [fsBold];
+
+      CreateCell(ARow, ColumnIndex + 3).AsCurrency := RoundTo(GrandProfit, -2);
+      if GrandProfit < 0 then
+        Cells[ARow, ColumnIndex + 3].Style.DataFormat.FormatCode := '#,##0.00_);[Red]($#,##0.00)'
+      else
+        Cells[ARow, ColumnIndex + 3].Style.DataFormat.FormatCode := '$#,##0.00';
+      Cells[ARow, ColumnIndex + 3].Style.Font.Style := [fsBold];
+      Cells[ARow, ColumnIndex].Style.Font.Style := [fsBold]
     end;
 
   end;
@@ -183,12 +194,13 @@ begin
         end;
         GroupTotal := GroupTotal + FieldByName('Prof').AsFloat;
         GrandTotal := GrandTotal + FieldByName('Amt').AsFloat;
+        GrandProfit := GrandProfit + FieldByName('Prof').AsFloat;
         Inc(J, 1);
         Next;
       end;
       GroupUnderline(J, GIndex, ShContr);
     end;
-    GranTotal(J, GrandTotal);
+    GranTotal(J);
     CountPages;
   finally
     AData.EnableControls;
@@ -292,6 +304,7 @@ procedure TReport.InitProperty;
 begin
   GroupTotal := 0;
   GrandTotal := 0;
+  GrandProfit := 0;
 end;
 
 procedure TReport.PrepareBook;

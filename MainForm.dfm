@@ -27,9 +27,14 @@ object frmMain: TfrmMain
       Width = 1166
       Height = 586
       Align = alClient
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = []
       OptionsView.GridLineColor = clMedGray
       OptionsView.GridLines = False
-      ExplicitLeft = 2
+      ParentFont = False
       Data = {
         D701000044585353763242460B00000042465320000000000000000000000101
         010100000000000001004246532000000000424653200200000001000000200B
@@ -64,13 +69,22 @@ object frmMain: TfrmMain
         OnClick = Button1Click
       end
       object Button3: TButton
-        Left = 150
+        Left = 145
         Top = 9
         Width = 113
         Height = 25
-        Caption = 'Print Report'
+        Caption = 'Print Preview'
         TabOrder = 1
         OnClick = Button3Click
+      end
+      object Button2: TButton
+        Left = 266
+        Top = 9
+        Width = 113
+        Height = 25
+        Caption = 'Save to PDF'
+        TabOrder = 2
+        OnClick = Button2Click
       end
     end
   end
@@ -78,6 +92,7 @@ object frmMain: TfrmMain
     CurrentLink = SpreadSheetLink
     ExplorerStubLink = SpreadSheetLink
     Options = [cpoAutoRebuildBeforePreview, cpoGenerateReportProgressEvent, cpoShowHourGlass, cpoDropStorageModeAfterPreview]
+    PreviewOptions.EnableOptions = [peoCanChangeMargins, peoPageBackground, peoPageSetup, peoPreferences, peoReportDesign]
     Version = 0
     Left = 328
     Top = 88
@@ -85,6 +100,7 @@ object frmMain: TfrmMain
     object SpreadSheetLink: TdxSpreadSheetReportLnk
       Active = True
       Component = mSpreadSheet
+      PageNumberFormat = pnfNumeral
       PrinterPage.DMPaper = 9
       PrinterPage.Footer = 6350
       PrinterPage.Header = 6350
@@ -95,7 +111,7 @@ object frmMain: TfrmMain
       PrinterPage.PageHeader.Font.Charset = ANSI_CHARSET
       PrinterPage.PageHeader.Font.Color = clBlack
       PrinterPage.PageHeader.Font.Height = -15
-      PrinterPage.PageHeader.Font.Name = 'Calibri'
+      PrinterPage.PageHeader.Font.Name = 'Arial'
       PrinterPage.PageHeader.Font.Style = [fsBold]
       PrinterPage.PageHeader.LeftTextAlignY = taTop
       PrinterPage.PageHeader.LeftTitle.Strings = (
@@ -112,7 +128,7 @@ object frmMain: TfrmMain
       PrinterPage.ScaleMode = smFit
       PrinterPage._dxMeasurementUnits_ = 0
       PrinterPage._dxLastMU_ = 2
-      ReportDocument.CreationDate = 43468.747325243060000000
+      ReportDocument.CreationDate = 43469.722571261570000000
       ReportTitle.Font.Charset = ANSI_CHARSET
       ReportTitle.Font.Color = clBlack
       ReportTitle.Font.Height = -15
@@ -122,16 +138,17 @@ object frmMain: TfrmMain
       ReportTitle.TextAlignY = taTop
       ReportTitle.Transparent = False
       ShrinkToPageWidth = True
+      TimeFormat = 0
       Color = clBtnFace
-      FixedFont.Charset = DEFAULT_CHARSET
+      FixedFont.Charset = ANSI_CHARSET
       FixedFont.Color = clWindowText
       FixedFont.Height = -11
-      FixedFont.Name = 'Tahoma'
+      FixedFont.Name = 'Arial'
       FixedFont.Style = []
-      Font.Charset = DEFAULT_CHARSET
+      Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
-      Font.Name = 'Tahoma'
+      Font.Name = 'Arial'
       Font.Style = []
       OptionsView = []
       PixelsPerInch = 96
