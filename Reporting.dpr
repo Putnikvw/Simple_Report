@@ -4,7 +4,7 @@ uses
   Vcl.Forms,
   MainForm in 'MainForm.pas' {frmMain},
   uDataModule in 'uDataModule.pas' {DataBase: TDataModule},
-  uReport in 'uReport.pas';
+  uFastReport in 'uFastReport.pas';
 
 {$R *.res}
 
